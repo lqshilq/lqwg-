@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+</head>
+<script src="js/jquery-3.3.1.min.js"></script>
+<body>
+<input type="text" id="txtid"><br>
+<input type="text" id="txtpwd"><br>
+<input type="button" value="登陆" id="sublogin">
+<input type="button" value="注册" id="subreg">
+<script>
+    $(document).ready(function () {
+        //Jquery开头
+       console.log($("#txtid").value);
+        $("#sublogin").click(function () {
+            $.ajax({
+                method:'get',
+                url:"/user",
+                data:{ty:"log",user:$("#txtid").val(),pwd:$("#txtpwd").val()},
+                success:function (data) {
+                   var json=eval("("+data+")");
+                    console.log(json.ok);
+                    if(json.ok)
+                   {
+                       alert('登陆成功');
+                   }else
+                   {
+                       alert(json.msg);
+                   }
+                },error:function () {
+                    alert("连接失败");
+                }
+            });
+        });
+        $("#subreg").click(function () {
+            $.ajax({
+                method:'get',
+                url:"/user",
+                data:{ty:"reg",user:$("#txtid").val(),pwd:$("#txtpwd").val()},
+                success:function (data) {
+                    var json=eval("("+data+")");
+                    if(json.ok)
+                    {
+                        alert('注册成功');
+                    }else
+                    {
+                        alert(json.msg);
+                    }
+                },error:function () {
+                    alert("连接失败");
+                }
+            });
+
+        });
+    });
+</script>
+</body>
+</html>
